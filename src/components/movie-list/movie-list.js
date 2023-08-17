@@ -1,5 +1,5 @@
 import Home from '@mui/icons-material/Home';
-import { AppBar, Box, Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, InputBase, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, InputBase, Toolbar, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,13 +11,13 @@ import StarRatings from 'react-star-ratings';
 function MovieList() {
     const [movies, setMovies] = useState([]);
     const inputRef = useRef(null);
-
+    const [pageNumber, setPageNumber] = useState(1)
     useEffect(() => {
         getMovies();
     }, []);
 
     const getMovies = (() => {
-        axios.get('https://api.themoviedb.org/3/discover/movie?api_key=c2ce9c4b90b2697d2021ce5ee7aff683')
+        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=c2ce9c4b90b2697d2021ce5ee7aff683`)
             .then(response => {
                 setMovies(response.data.results);
             })
@@ -29,7 +29,7 @@ function MovieList() {
 
     const onSearchChange = ((movieName) => {
         if (movieName.target.value) {
-            axios.get(`https://api.themoviedb.org/3/search/movie?query=${movieName.target.value}&include_adult=false&language=en-US&page=1&api_key=c2ce9c4b90b2697d2021ce5ee7aff683`)
+            axios.get(`https://api.themoviedb.org/3/search/movie?query=${movieName.target.value}&page=1&api_key=c2ce9c4b90b2697d2021ce5ee7aff683`)
                 .then(response => {
                     setMovies(response.data.results)
                 })
@@ -49,6 +49,17 @@ function MovieList() {
 
     })
 
+    const onLoadMore = (() => {
+        console.log(inputRef.current.value)
+        axios.get(`https://api.themoviedb.org/3/discover/movie?query=${inputRef.current.value}&page=${pageNumber + 1}&api_key=c2ce9c4b90b2697d2021ce5ee7aff683`)
+            .then(response => {
+                setMovies((oldMovies) => [...oldMovies, ...response.data.results])
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        setPageNumber((num) => num + 1)
+    })
 
     return (
         <div>
@@ -110,6 +121,10 @@ function MovieList() {
                     </Grid>
                 ))}
             </Grid>
+
+            <div className={styles.loadMoreButton}>
+                <Button variant="contained" onClick={onLoadMore}>Load more</Button>
+            </div>
         </div >
     );
 }
