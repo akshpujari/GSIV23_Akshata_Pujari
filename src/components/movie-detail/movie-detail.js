@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import Home from '@mui/icons-material/Home';
-import { AppBar, Box, IconButton, InputBase, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import axios from 'axios';
-import { Flare } from "@mui/icons-material";
+import style from './movie-detail.module.css'
 
 function MovieDetail() {
     const params = useParams(); // to get movie ID from URL
@@ -54,23 +54,25 @@ function MovieDetail() {
             </AppBar>
             <Box height="5rem"></Box>
             {movie ?
-                (<div style={{ display: "flex", margin: 20 }}>
+                (<div className={style.details}>
                     <div style={{ maxWidth: 250 }}>
                         <img src={(`https://image.tmdb.org/t/p/original${movie.poster_path}`)} style={{ width: '100%' }} />
                     </div>
-                    <div style={{ paddingLeft: 20 }}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                    <div className={style.text}>
+                        <div className={style.title}>
                             <Typography gutterBottom variant="h5" component="div" style={{ paddingRight: 20 }}>
                                 {movie.title}
                             </Typography>
-                            {movie.vote_average ?
-                                (<StarRatings
-                                    rating={movie.vote_average / 2}
-                                    starDimension="20px"
-                                    starSpacing="8px"
-                                    starRatedColor="#FF9529"
-                                />
-                                ) : ''}
+                            <div style={{ minWidth: 165, paddingBottom: 10 }}>
+                                {movie.vote_average ?
+                                    (<StarRatings
+                                        rating={movie.vote_average / 2}
+                                        starDimension="20px"
+                                        starSpacing="8px"
+                                        starRatedColor="#FF9529"
+                                    />
+                                    ) : ''}
+                            </div>
                         </div>
                         <Typography variant="body1" color="text.secondary" >
                             <div>

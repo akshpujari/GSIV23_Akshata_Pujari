@@ -74,7 +74,7 @@ function MovieList() {
     })
 
     return (
-        <div>
+        <div style={{ paddingLeft: 20 }}>
             <AppBar sx={{ backgroundColor: '#fff', color: '#333' }}>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
                     <Box
@@ -93,49 +93,51 @@ function MovieList() {
                 </Toolbar>
             </AppBar>
             <Box height="5rem"></Box>
+            <div>
 
-            {movies ?
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {movies.map(movie => (
-                        <Grid item key={movie.id} >
-                            <Link to={`${movie.id}/movie-detail`} style={{ textDecorationLine: "none" }}>
-                                <Card sx={{ maxWidth: 250 }} >
-                                    <CardActionArea >
-                                        <CardMedia>
-                                            <img src={(`https://image.tmdb.org/t/p/original${movie.poster_path}`)} style={{ width: '100%' }} />
-                                        </CardMedia>
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h6" component="div" style={{ height: 65 }}>
-                                                {movie.title}
-                                            </Typography>
-                                            <div>
-                                                {movie.vote_average ?
-                                                    (<StarRatings
-                                                        rating={movie.vote_average / 2}
-                                                        starDimension="15px"
-                                                        starSpacing="5px"
-                                                        starRatedColor="#FF9529"
-                                                    />
-                                                    ) : ''}
-                                            </div>
-                                            <Typography variant="body2" color="text.secondary" sx={{
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                display: "-webkit-box",
-                                                WebkitLineClamp: "2",
-                                                WebkitBoxOrient: "vertical",
-                                            }}>
-                                                {movie.overview}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    ))}
-                </Grid>
-                : <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>
-            }
+                {movies ?
+                    <Grid container spacing={{ xs: 1, sm: 5, md: 7 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        {movies.map(movie => (
+                            <Grid item key={movie.id} >
+                                <Link to={`${movie.id}/movie-detail`} style={{ textDecorationLine: "none" }}>
+                                    <Card sx={{ maxWidth: 250 }} >
+                                        <CardActionArea >
+                                            <CardMedia>
+                                                <img src={(`https://image.tmdb.org/t/p/original${movie.poster_path}`)} style={{ width: '100%' }} />
+                                            </CardMedia>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h6" component="div" style={{ height: 65 }}>
+                                                    {movie.title}
+                                                </Typography>
+                                                <div>
+                                                    {movie.vote_average ?
+                                                        (<StarRatings
+                                                            rating={movie.vote_average / 2}
+                                                            starDimension="15px"
+                                                            starSpacing="5px"
+                                                            starRatedColor="#FF9529"
+                                                        />
+                                                        ) : ''}
+                                                </div>
+                                                <Typography variant="body2" color="text.secondary" sx={{
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    display: "-webkit-box",
+                                                    WebkitLineClamp: "2",
+                                                    WebkitBoxOrient: "vertical",
+                                                }}>
+                                                    {movie.overview}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Link>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    : <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>
+                }
+            </div>
             <div className={styles.loadMoreButton}>
                 <Button variant="contained" onClick={onLoadMore}>Load more</Button>
             </div>
